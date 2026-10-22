@@ -1,48 +1,92 @@
 
-#include <iostream>
 #include <cmath>
 #include <iomanip>
+#include <iostream>
+#include <stdexcept>
 
-using namespace std;
+struct BisectionResult {
+    double root;
+    int iterations;
+    bool converged;
+};
 
-// Funcion cuya raiz queremos encontrar
-double f(double x) {
-    return x * x - 2.0;
+template <typename Function>
+BisectionResult bisection(
+    Function f,
+    double a,
+    double b,
+    double tolerance = 1e-8,
+    int max_iterations = 100
+) {
+    if (!std::isfinite(a) || !std::isfinite(b) || a >= b) {
+        throw std::invalid_argument("Invalid interval.");
+    }
+
+    if (!std::isfinite(tolerance) || tolerance <= 0.0 ||
+        max_iterations <= 0) {
+        throw std::invalid_argument("Invalid stopping criteria.");
+    }
+
+    double fa = f(a);
+    double fb = f(b);
+
+    if (!std::isfinite(fa) || !std::isfinite(fb)) {
+        throw std::invalid_argument("Non-finite endpoint value.");
+    }
+
+    if (fa == 0.0) return {a, 0, true};
+    if (fb == 0.0) return {b, 0, true};
+
+    if (std::signbit(fa) == std::signbit(fb)) {
+        throw std::invalid_argument(
+            "Interval must bracket a root."
+        );
+    }
+
+    for (int i = 1; i <= max_iterations; ++i) {
+        const double c = a + (b - a) / 2.0;
+        const double fc = f(c);
+
+        if (!std::isfinite(fc)) {
+            throw std::runtime_error("Non-finite function value.");
+        }
+
+        if (std::abs(fc) <= tolerance ||
+            (b - a) / 2.0 <= tolerance) {
+            return {c, i, true};
+        }
+
+        if (std::signbit(fa) != std::signbit(fc)) {
+            b = c;
+            fb = fc;
+        } else {
+            a = c;
+            fa = fc;
+        }
+    }
+
+    return {a + (b - a) / 2.0, max_iterations, false};
 }
 
 int main() {
-    double a = 1.0;
-    double b = 2.0;
-    double tol = 1e-6;
-    int max_iter = 100;
+    const auto f = [](double x) {
+        return x * x * x - x - 2.0;
+    };
 
-    if (f(a) * f(b) >= 0) {
-        cout << "El intervalo no garantiza una raiz por biseccion.\n";
+    try {
+        const BisectionResult result = bisection(f, 1.0, 2.0);
+
+        std::cout << std::setprecision(12)
+                  << "Root: " << result.root << '\n'
+                  << "f(root): " << f(result.root) << '\n'
+                  << "Iterations: " << result.iterations << '\n'
+                  << "Converged: " << std::boolalpha
+                  << result.converged << '\n';
+    } catch (const std::exception& error) {
+        std::cerr << "Error: " << error.what() << '\n';
         return 1;
     }
 
-    double c = a;
-
-    for (int i = 1; i <= max_iter; i++) {
-        c = (a + b) / 2.0;
-
-        if (fabs(f(c)) < tol || (b - a) / 2.0 < tol) {
-            cout << fixed << setprecision(8);
-            cout << "Raiz aproximada: " << c <<endl;
-            cout << "Iteraciones: " << i <<endl;
-            cout << "f(raiz): " << f(c) <<endl;
-            return 0;
-        }
-
-        if (f(a) * f(c) < 0) {
-            b = c;
-        } else {
-            a = c;
-        }
-    }
-
-    cout << "No se alcanzo la tolerancia en "
-         << max_iter << " iteraciones."<<endl;
-
     return 0;
 }
+
