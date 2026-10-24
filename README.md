@@ -1,6 +1,6 @@
 # Numerical Methods in C++
 
-I'm using this repository to practise numerical methods in C++ and get a better feel for the maths behind them—not just how to translate a formula into code.
+I'm using this repository to practise numerical methods in C++ and understand the maths behind them—not just translate a formula into code. I'll build it step by step, test each method, and document what I learn along the way.
 
 The idea is to build a small collection of implementations, compare their results with known answers, and learn where each method works well and where it has limitations. These methods show up across engineering, so they're useful foundations for the aerospace problems I want to work on later.
 
