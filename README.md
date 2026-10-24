@@ -1,42 +1,32 @@
-# C++ Numerical Methods for Engineering
+# Numerical Methods in C++
 
-A collection of numerical algorithms implemented in C++ to explore mathematical methods used in engineering and scientific computing.
+I'm using this repository to practise numerical methods in C++ and get a better feel for the maths behind them—not just how to translate a formula into code.
 
-## Objectives
+The idea is to build a small collection of implementations, compare their results with known answers, and learn where each method works well and where it has limitations. These methods show up across engineering, so they're useful foundations for the aerospace problems I want to work on later.
 
-- Understand the mathematical foundations of numerical methods.
-- Implement algorithms in C++.
-- Test solutions against known results.
-- Study numerical accuracy and computational limitations.
+## Methods on the list
 
-## Methods
+The repository is still growing. These are the methods I plan to add and test:
 
-### 1. Root-Finding Algorithms
-
+### Root finding
 - [ ] Bisection method
-- [ ] Newton-Raphson method
+- [ ] Newton–Raphson method
 
-### 2. Numerical Integration
-
+### Numerical integration
 - [ ] Trapezoidal rule
 - [ ] Simpson's rule
 
-### 3. Numerical Solutions of Differential Equations
-
+### Ordinary differential equations
 - [ ] Euler method
-- [ ] Runge-Kutta method (RK4)
+- [ ] Runge–Kutta method (RK4)
 
-## Project Structure
+## How I want to approach each method
 
-Implementations, examples, and tests will be organized as the project develops.
+For each implementation, I want to include the main idea behind the method, the C++ code, a few example inputs, expected results, and tests where they make sense. I also want to pay attention to accuracy and the situations where a method can give misleading results.
 
-## Technologies
+## Tools
 
 - C++
 - Git and GitHub
 
-## Learning Approach
-
-Each method will include its mathematical explanation, implementation, example inputs, expected results, and tests where applicable.
-
-*Developed as part of my learning journey in Aerospace Engineering at the National University of Engineering (UNI), Peru.*
+I'm building this alongside my Aerospace Engineering studies at the National University of Engineering (UNI) in Peru. As I add implementations, I'll update this README so it's clear what's actually available and what I'm still working on.
